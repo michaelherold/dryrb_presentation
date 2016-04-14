@@ -1,6 +1,7 @@
 var bespoke = require('bespoke');
 var backdrop = require('bespoke-backdrop');
 var bullets = require('bespoke-bullets');
+var fullscreen = require('bespoke-fullscreen');
 var hash = require('bespoke-hash');
 var keys = require('bespoke-keys');
 var progress = require('bespoke-progress');
@@ -16,7 +17,8 @@ bespoke.from('article', [
   scale(),
   hash(),
   progress(),
-  bullets()
+  bullets(),
+  fullscreen(),
 ]);
 
 require('prism');
