@@ -3,7 +3,7 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
-    title dryrb
+    title dryrb - Single purpose libraries for the Rubyist soul
 
     link(rel='stylesheet', type='text/css', href='build/build.css')
 
@@ -11,53 +11,365 @@ html
 
     article
 
-      section
-        h1 dryrb
+      section(data-bespoke-hash="title")
+        h1 dry-rb
+        h3 Single purpose libraries for the Rubyist soul
 
-      section
-        h2 Keyboard Interaction
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-keys">bespoke-keys</a>
+      section(data-bespoke-hash="utility-gems")
+        h2(data-bespoke-bullet) Utility Gems
+        ul
+          li(data-bespoke-bullet) dry-equalizer: Object equal testing
+          li(data-bespoke-bullet) dry-result_matcher: Pattern matching
+          li(data-bespoke-bullet) dry-transaction: Railway programming for business logic
 
-      section
-        h2 Touch Interaction
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-touch">bespoke-touch</a>
+      section(data-bespoke-hash="dependency-gems")
+        h2(data-bespoke-bullet) Dependency Management Gems
+        ul
+          li(data-bespoke-bullet) dry-container: IoC container
+          li(data-bespoke-bullet) dry-auto_inject: Automatic dependency injection
+          li(data-bespoke-bullet) dry-component: Dependency management system
 
-      section
-        h2 Responsive Slides
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-scale">bespoke-scale</a>
+      section(data-bespoke-hash="data-gems")
+        h2(data-bespoke-bullet) Data Gems
+        ul
+          li(data-bespoke-bullet) dry-logic: Predicate logic
+          li(data-bespoke-bullet) dry-types: Flexible type system
+          li(data-bespoke-bullet) dry-validation: Predicate-based data validation
 
-      section
-        h2 Syntax Highlighting
-        h3 Powered by <a href="http://twitter.com/LeaVerou">Lea Verou</a>'s <a href="https://github.com/LeaVerou/prism">Prism</a>
+      section(data-bespoke-hash="our-focus")
+        h2(data-bespoke-bullet) Our focus for today
+        ul
+          li(data-bespoke-bullet) dry-types
+          li(data-bespoke-bullet) dry-validation
+
+      section(data-bespoke-hash="dry-types")
+        h2 dry-types
+        p Flexible type system with many built-in types
+
+      section(data-bespoke-hash="dry-types-built-ins-base")
+        h2 dry-types: Built-in Types
+        h3 Base Types
         pre
-          code.language-javascript.
-            bespoke.from('article', [
-              classes(),
-              keys(),
-              touch(),
-              bullets('li, .bullet')
-            ]);
+          code.language-ruby.
+            Types::Array    Types::Bool       Types::Class
+            Types::Date     Types::DateTime   Types::Hash
+            Types::Nil      Types::Symbol     Types::Time
 
-      section(data-bespoke-hash='named-route')
-        h2 Named Route
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-hash">bespoke-hash</a>
-        p Look up! This route has been named with a <em>'data-bespoke-hash'</em> attribute.
+      section(data-bespoke-hash="dry-types-builtins-strict")
+        h2 dry-types: Built-in Types
+        h3 Strict Types (with primitive type check)
+        pre
+          code.language-ruby.
+            Types::Strict::Array      #=> Array
+            Types::Strict::Decimal    #=> BigDecimal
+            Types::Strict::Float      #=> Float
+            Types::Strict::Hash       #=> Hash
+            Types::Strict::Int        #=> Integer
+            Types::Strict::String     #=> String
+
+      section(data-bespoke-hash="dry-types-builtins-coercible")
+        h2 dry-types: Built-in Types
+        h3 Coercible Types (via Kernel coercion)
+        pre
+          code.language-ruby.
+            Types::Coercible::Array[1]        #=> [1]
+            Types::Coercible::Decimal[1]      #=> BigDecimal('1.0')
+            Types::Coercible::Float[1]        #=> 1.0
+            Types::Coercible::Hash[nil]       #=> {}
+            Types::Coercible::Int["1"]        #=> 1
+            Types::Coercible::String[1]       #=> "1"
+
+      section(data-bespoke-hash="dry-types-builtins-form")
+        h2 dry-types: Built-in Types
+        h3 Form Types (for params objects)
+        pre
+          code.language-ruby.
+            Types::Form::DateTime["2016-04-14T18:00:00-05:00"]
+
+            Types::Form::Bool["t"]    #=> true
+            Types::Form::Bool["1"]    #=> true
+            Types::Form::Bool["f"]    #=> false
+            Types::Form::Bool["0"]    #=> false
+
+      section(data-bespoke-hash="dry-types-builtins-maybe")
+        h2 dry-types: Built-in Types
+        h3 Maybe Types (Monads!)
+        pre
+          code.language-ruby.
+            Types::Maybe::Coercible::String[:wat]   #=> Some("wat")
+            Types::Maybe::Coercible::String[nil]    #=> None
+
+            Types::Maybe::Strict::String[:wat]      #=> ConstraintError
+            Types::Maybe::Strict::String[nil]       #=> None
+
+      section(data-bespoke-hash="dry-types-defining-types-defaults")
+        h2 dry-types: Defining Types
+        h3 Default Values
+        pre
+          code.language-ruby.
+            LastName = Types::Strict::String.default("Awesome")
+
+            LastName[nil]           #=> "Awesome"
+            LastName[""]            #=> "Awesome"
+            LastName["Matsumoto"]   #=> "Matsumoto"
+
+      section(data-bespoke-hash="dry-types-defining-types-constraints")
+        h2 dry-types: Defining Types
+        h3 Constraints
+        pre
+          code.language-ruby.
+            HexColor = Types::Strict::String.constrained(
+              format: /\A\#(?:[\da-f]{6}|[\da-f]{3})\z/i
+            )
+
+            HexColor["#fff"]        #=> "#fff"
+            HexColor["#e5e5e5"]     #=> "#e5e5e5"
+            HexColor["#1234"]       #=> ConstraintError
+
+      section(data-bespoke-hash="dry-types-defining-types-sum")
+        h2 dry-types: Defining Types
+        h3 Sum Types
+        pre
+          code.language-ruby.
+            HexColor = Types::Strict::String.constrained(...)
+            RgbColor = Types::Strict::String.constrained(...)
+            Color = HexColor | RgbColor
+
+            Color["#fff"]                   #=> "#fff"
+            Color["rgb(239, 239, 239)"]     #=> "rgb(239, 239, 239)"
+            Color["not a color"]            #=> ConstraintError
+
+      section(data-bespoke-hash="dry-types-structs")
+        h2 dry-types: Structs
+        pre
+          code.language-ruby.
+            class User < Dry::Types::Struct
+              attribute :age,   Types::Coercible::Int
+              attribute :color, Color
+              attribute :name,  Types::Maybe::Coercible::String
+            end
+
+            user = User.new(name: nil, age: "29", color: "#ff0")
+            user.name             #=> None
+            user.age              #=> 29
+            user.favorite_color   #=> "#ff0"
+
+      section(data-bespoke-hash="dry-types-values")
+        h2 dry-types: Value Objects
+        pre
+          code.language-ruby.
+            class Point < Dry::Types::Value
+              attribute :x, Types::Coercible::Int
+              attribute :y, Types::Coercible::Int
+            end
+
+            origin = Point.new(x: 0, y: 0)
+            string_origin = Point.new(x: "0", y: "0")
+
+            origin == string_origin   #=> true
+
+      section(data-bespoke-hash="dry-types-misc")
+        h2 dry-types: Extras
+        h3 Enums, Hash schemas, and Array members
+        pre
+          code.language-ruby.
+            PostStatus = Types::Strict::String.enum("draft", "published")
+            PostStatuses = Types::Strict::Array.member(PostStatus)
+            PostParams = Types::Hash.schema(
+              title: Types::String,
+              published_on: Types::DateTime,
+              status: PostStatus
+            )
+
+      section(data-bespoke-hash="dry-types-wrap-up")
+        h2(data-bespoke-bullet) dry-types: Wrap up
+        ul
+          li(data-bespoke-bullet) Flexible type system
+          li(data-bespoke-bullet) Handles strict input an coercible input
+          li(data-bespoke-bullet) Extremely fast!
+
+      section(data-bespoke-hash="dry-validation")
+        h2 dry-validation
+        p Predicate-based data validation
+
+      section(data-bespoke-hash="dry-validation-schema")
+        h2 dry-validation: Schemas
+        pre
+          code.language-ruby.
+            PostSchema = Dry::Validation.Schema do
+              key(:title).required
+              key(:status).required(inclusion?: ["draft", "published"])
+            end
+
+            PostSchema.(title: "Test Post", status: "draft").success? #=> true
+            PostSchema.(title: "Test Post", status: "other").success? #=> false
+            PostSchema.(title: "Test Post").success? #=> false
+
+      section(data-bespoke-hash="dry-validation-builtin-predicates")
+        h2 dry-validation: Built-In Predicates
+        pre
+          code.language-ruby.
+            :empty?   :eql?   :filled?  :format?
+            :gt?      :gteq?  :key?     :lt?
+            :lteq?    :none?  :type?
+
+            :inclusion?     :exclusion?
+            :max_size?      :min_size?
+            :size?(int)     :size?(range)
+
+      section(data-bespoke-hash="dry-validation-custom-predicates")
+        h2 dry-validation: Custom Predicates
+        pre
+          code.language-ruby.
+            module PostPredicates
+              include Dry::Logic::Predicates
+              predicate(:status?) { inclusion?(%w(draft published)) }
+            end
+            PostSchema = Dry::Validation.Schema do
+              configure { config.predicates = PostPredicates }
+              key(:status).required(&:status?)
+            end
+
+      section(data-bespoke-hash="dry-validation-messages")
+        h2 dry-validation: Messages
+        pre
+          code.language-ruby.
+            PostSchema.(title: "Test Post", status: "other").messages
+            #=> {:status => ["must be one of: draft, published"]}
+
+            PostSchema.(status: "").messages(full: true)
+            #=> {:title  => ["title is missing"],
+            #=>  :status => ["status must be filled",
+            #=>              "status must be one of: draft, published"]}
+        p The same format as ActiveModel::Model
+
+      section(data-bespoke-hash="dry-validation-custom-messages")
+        h2 dry-validation: Custom Messages
+        pre
+          code.language-ruby.
+            UserSchema = Dry::Validation.Schema do
+              configure do
+                config.messages      = :i18n
+                config.messages_file = "some/yaml/error.yml"
+                config.namespace     = :user
+              end
+            end
+
+      section(data-bespoke-hash="dry-validation-optionals")
+        h2 dry-validation: Optionals
+        pre
+          code.language-ruby.
+            PersonSchema = Dry::Validation.Schema do
+              optional(:name).maybe(:str?)
+              optional(:first_name).maybe(:str?)
+              optional(:last_name).maybe(:str?)
+            end
+
+      section(data-bespoke-hash="dry-validation-rules")
+        h2 dry-validation: Composite Rules
+        pre
+          code.language-ruby.
+            PersonSchema = Dry::Validation.Schema do
+              # ...
+              rule(migrate_name: [:name, :first_name, :last_name]) do
+                |name, fname, lname|
+
+                (name.filled? & (fname.none? & lname.none?)) |
+                (name.none? & (fname.filled? & lname.filled?))
+              end
+            end
+
+      section(data-bespoke-hash="dry-validation-wrap-up")
+        h2 dry-validation: Wrap Up
+        ul
+          li Very expressive
+          li Extensible
+          li Sadly no direct integration to dry-types?
+
+      section(data-bespoke-hash="interactor-without-checking")
+        h2 Interactors - Without Checking
+        pre
+          code.language-ruby.
+            class CreateUser
+              include Interactor
+
+              def call
+                context.user = User.create!(
+                  name: context.name,
+                  email: context.email
+                )
+              end
+            end
+
+      section(data-bespoke-hash="interactor-repetitive-checking")
+        h2 Repetitive Checking
+        pre
+          code.language-ruby.
+            class CreateUser
+              before do
+                %i(email name).each do |attr|
+                  unless context[attr].present?
+                    context.fail!(message: "missing_\#{attr}")
+                  end
+                end
+              end
+            end
+
+      section(data-bespoke-hash="interactor-contracts-expectations")
+        h2 interactor-contracts
+        p Expectations
+        pre
+          code.language-ruby.
+            class CreateUser
+              include Interactor::Contracts
+
+              expects do
+                attr(:email, &:filled?)
+                attr(:name, &:filled?)
+              end
+            end
+
+      section(data-bespoke-hash="interactor-contracts-assurances")
+        h2 interactor-contracts
+        p Assurances
+        pre
+          code.language-ruby.
+            class CreateUser
+              include Interactor::Contracts
+
+              assures do
+                attr(:user, &:filled?)
+              end
+            end
+
+      section(data-bespoke-hash="interactor-contracts-future-work")
+        h2 interactor-contracts
+        h3 Future Work
+        ul(data-bespoke-bullet)
+          li(data-bespoke-bullet) Reuse schemas between interactors
+          li(data-bespoke-bullet) Check long business logic chains at startup
+          li(data-bespoke-bullet) Integrate dry-type checking
 
       section.emphatic-text(data-bespoke-backdrop='emphatic')
-        h2 Emphatic Slide!
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-backdrop">bespoke-backdrop</a>
-
-      section
-        h2.bullet Just the beginning...
-        br
-        ul
-          li Edit <a href="http://jade-lang.com/">Jade</a> markup in <em>'src/index.jade'</em>
-          li Edit <a href="http://learnboost.github.io/stylus/">Stylus</a> styles in <em>'src/styles/main.styl'</em>
-          li Edit JavaScript in <em>'src/scripts/main.js'</em>
-        br
-        ul
+        p
+          b Presentation available at:
+        p
+          a(href="https://michaelherold.github.io/dry-rb_presentation", target="_blank")
+            | https://michaelherold.github.io/dry-rb_presentation
+        p
+          b Want to chat?
+        ul.contact-list
           li
-            strong Enjoy! :)
-            a(href='http://twitter.com/markdalgleish')  -@markdalgleish
+            i.fa.fa-fw.fa-envelope
+            a(href="mailto:michael.j.herold@gmail.com")
+              | michael.j.herold@gmail.com
+          li
+            i.fa.fa-fw.fa-github
+            a(href="https://github.com/michaelherold")
+              | michaelherold
+          li
+            i.fa.fa-fw.fa-twitter
+            a(href="https://twitter.com/mherold")
+              | mherold
 
     script(src='build/build.js')

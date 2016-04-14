@@ -2,6 +2,7 @@
   "name": "presentation-dryrb",
   "version": "0.0.0",
   "dependencies": {
-    "prism": "gh-pages"
+    "prism": "gh-pages",
+    "font-awesome": "fontawesome#^4.6.1"
   }
 }

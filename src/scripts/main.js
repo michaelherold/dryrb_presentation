@@ -1,5 +1,6 @@
 var bespoke = require('bespoke');
 var backdrop = require('bespoke-backdrop');
+var bullets = require('bespoke-bullets');
 var hash = require('bespoke-hash');
 var keys = require('bespoke-keys');
 var progress = require('bespoke-progress');
@@ -15,6 +16,8 @@ bespoke.from('article', [
   scale(),
   hash(),
   progress(),
+  bullets()
 ]);
 
 require('prism');
+require('prism/components/prism-ruby');
