@@ -141,9 +141,9 @@ Color["not a color"]            #=> ConstraintError
 end
 
 user = User.new(name: nil, age: "29", color: "#ff0")
-user.name             #=> None
-user.age              #=> 29
-user.favorite_color   #=> "#ff0"
+user.name    #=> None
+user.age     #=> 29
+user.color   #=> "#ff0"
 </code></pre>
       </section>
       <section data-bespoke-hash="dry-types-values">
